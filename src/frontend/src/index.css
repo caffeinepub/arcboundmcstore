@@ -1,0 +1,197 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --radius: 0.5rem;
+    --background: 0.07 0.015 280;
+    --foreground: 0.97 0 0;
+    --card: 0.1 0.02 280;
+    --card-foreground: 0.97 0 0;
+    --popover: 0.1 0.02 280;
+    --popover-foreground: 0.97 0 0;
+    --primary: 0.82 0.22 150;
+    --primary-foreground: 0.07 0.015 280;
+    --secondary: 0.15 0.03 280;
+    --secondary-foreground: 0.97 0 0;
+    --muted: 0.15 0.02 280;
+    --muted-foreground: 0.6 0.01 280;
+    --accent: 0.6 0.28 300;
+    --accent-foreground: 0.97 0 0;
+    --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 0.985 0 0;
+    --border: 1 0 0 / 12%;
+    --input: 1 0 0 / 15%;
+    --ring: 0.82 0.22 150;
+    --chart-1: 0.82 0.22 150;
+    --chart-2: 0.6 0.28 300;
+    --chart-3: 0.75 0.2 200;
+    --chart-4: 0.75 0.18 55;
+    --chart-5: 0.65 0.22 25;
+    --sidebar: 0.08 0.015 280;
+    --sidebar-foreground: 0.97 0 0;
+    --sidebar-primary: 0.82 0.22 150;
+    --sidebar-primary-foreground: 0.07 0.015 280;
+    --sidebar-accent: 0.15 0.03 280;
+    --sidebar-accent-foreground: 0.97 0 0;
+    --sidebar-border: 1 0 0 / 10%;
+    --sidebar-ring: 0.82 0.22 150;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Inter", system-ui, sans-serif;
+    background-color: #07070f;
+    overflow-x: hidden;
+  }
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0px) translateX(0px);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-120vh) translateX(20px);
+    opacity: 0;
+  }
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 20px #00ff88, 0 0 40px #00ff88, 0 0 60px #00ff8844;
+  }
+  50% {
+    box-shadow: 0 0 30px #00ff88, 0 0 60px #00ff88, 0 0 90px #00ff8866;
+  }
+}
+
+@keyframes pulseGlowPurple {
+  0%,
+  100% {
+    box-shadow: 0 0 15px #a855f7, 0 0 30px #a855f7, 0 0 50px #a855f744;
+  }
+  50% {
+    box-shadow: 0 0 25px #a855f7, 0 0 50px #a855f7, 0 0 70px #a855f766;
+  }
+}
+
+@keyframes rainbowBorder {
+  0% {
+    border-color: #ff0080;
+    box-shadow: 0 0 20px #ff0080, 0 0 40px #ff008044;
+  }
+  16% {
+    border-color: #ff8c00;
+    box-shadow: 0 0 20px #ff8c00, 0 0 40px #ff8c0044;
+  }
+  33% {
+    border-color: #ffd700;
+    box-shadow: 0 0 20px #ffd700, 0 0 40px #ffd70044;
+  }
+  50% {
+    border-color: #00ff88;
+    box-shadow: 0 0 20px #00ff88, 0 0 40px #00ff8844;
+  }
+  66% {
+    border-color: #00bfff;
+    box-shadow: 0 0 20px #00bfff, 0 0 40px #00bfff44;
+  }
+  83% {
+    border-color: #a855f7;
+    box-shadow: 0 0 20px #a855f7, 0 0 40px #a855f744;
+  }
+  100% {
+    border-color: #ff0080;
+    box-shadow: 0 0 20px #ff0080, 0 0 40px #ff008044;
+  }
+}
+
+@keyframes lavaFlow {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes textGlow {
+  0%,
+  100% {
+    text-shadow: 0 0 20px #00ff88, 0 0 40px #00ff8866;
+  }
+  50% {
+    text-shadow: 0 0 30px #00ff88, 0 0 60px #00ff88, 0 0 80px #00ff8844;
+  }
+}
+
+.pixel-font {
+  font-family: "Press Start 2P", monospace;
+}
+
+.neon-green-text {
+  color: #00ff88;
+  animation: textGlow 3s ease-in-out infinite;
+}
+
+.neon-glow-green {
+  animation: pulseGlow 2s ease-in-out infinite;
+}
+
+.neon-glow-purple {
+  animation: pulseGlowPurple 2s ease-in-out infinite;
+}
+
+.rainbow-border {
+  animation: rainbowBorder 3s linear infinite;
+  border-width: 2px;
+  border-style: solid;
+}
+
+.scanline-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.03) 2px,
+    rgba(0, 0, 0, 0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 9998;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 0;
+  animation: floatUp linear infinite;
+  pointer-events: none;
+}
+
+.glass-card {
+  background: rgba(10, 10, 20, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
