@@ -24,6 +24,21 @@ function useParticles(count: number): Particle[] {
   }, [count]);
 }
 
+// ─── Price helpers ────────────────────────────────────────────────────────────
+
+function inrPrice(usd: number): string {
+  return Math.round(usd * 83).toString();
+}
+
+function formatDualPrice(usd: number): string {
+  return `$${usd.toFixed(2)} / ₹${inrPrice(usd)}`;
+}
+
+function formatDualSalePrice(usd: number): string {
+  const sale = Math.round(usd * 0.7 * 100) / 100;
+  return `$${sale.toFixed(2)} / ₹${inrPrice(sale)}`;
+}
+
 // ─── Rank data ────────────────────────────────────────────────────────────────
 interface Rank {
   name: string;
@@ -41,7 +56,7 @@ interface Rank {
 const RANKS: Rank[] = [
   {
     name: "Noob+",
-    price: 1,
+    price: 0.99,
     emoji: "🗡️",
     desc: "Starter boost for newbies",
     perks: ["Access to /kit starter", "Colored chat prefix", "1 extra home"],
@@ -51,7 +66,7 @@ const RANKS: Rank[] = [
   },
   {
     name: "VIP",
-    price: 5,
+    price: 4.49,
     emoji: "⚔️",
     desc: "Monthly perks + priority queue",
     perks: [
@@ -66,7 +81,7 @@ const RANKS: Rank[] = [
   },
   {
     name: "Fighter",
-    price: 8,
+    price: 6.99,
     emoji: "🪓",
     desc: "PvP boosts + kill effects",
     perks: [
@@ -81,7 +96,7 @@ const RANKS: Rank[] = [
   },
   {
     name: "Dragon",
-    price: 10,
+    price: 8.99,
     emoji: "🐉",
     desc: "Fly mounts + custom armor",
     perks: [
@@ -96,7 +111,7 @@ const RANKS: Rank[] = [
   },
   {
     name: "S+",
-    price: 12,
+    price: 10.99,
     emoji: "⭐",
     desc: "Elite kits + /fly everywhere",
     perks: [
@@ -111,7 +126,7 @@ const RANKS: Rank[] = [
   },
   {
     name: "OG",
-    price: 15,
+    price: 12.99,
     emoji: "🏆",
     desc: "Lifetime basics + exclusive chat",
     perks: [
@@ -126,7 +141,7 @@ const RANKS: Rank[] = [
   },
   {
     name: "SGOD",
-    price: 20,
+    price: 17.99,
     emoji: "👑",
     desc: "All perks + server god mode",
     perks: [
@@ -162,7 +177,7 @@ interface Kit {
 const KITS: Kit[] = [
   {
     name: "Starter Kit",
-    price: 2,
+    price: 1.79,
     cooldown: "24h",
     emoji: "🎒",
     color: "#37d7ff",
@@ -178,7 +193,7 @@ const KITS: Kit[] = [
   },
   {
     name: "Fighter Kit",
-    price: 5,
+    price: 4.49,
     cooldown: "12h",
     emoji: "⚔️",
     color: "#ff5a3c",
@@ -194,7 +209,7 @@ const KITS: Kit[] = [
   },
   {
     name: "Archer Kit",
-    price: 4,
+    price: 3.49,
     cooldown: "12h",
     emoji: "🏹",
     color: "#a855f7",
@@ -210,7 +225,7 @@ const KITS: Kit[] = [
   },
   {
     name: "Diamond Kit",
-    price: 8,
+    price: 6.99,
     cooldown: "8h",
     emoji: "💎",
     color: "#00bfff",
@@ -226,7 +241,7 @@ const KITS: Kit[] = [
   },
   {
     name: "Mage Kit",
-    price: 7,
+    price: 5.99,
     cooldown: "12h",
     emoji: "🧙",
     color: "#f6c64a",
@@ -242,7 +257,7 @@ const KITS: Kit[] = [
   },
   {
     name: "God Kit",
-    price: 15,
+    price: 12.99,
     cooldown: "6h",
     emoji: "👑",
     color: "#ffd700",
@@ -260,7 +275,7 @@ const KITS: Kit[] = [
   },
 ];
 
-// ─── Creeper SVG (static pixel art with stable keys) ───────────────────────────
+// ─── Creeper SVG ───────────────────────────────────────────────────────────────
 const CREEPER_RECTS: [number, number][] = [
   [0, 1],
   [0, 7],
@@ -319,6 +334,148 @@ function CreeperFace() {
   );
 }
 
+// ─── LIMITED TIME SALE Banner ─────────────────────────────────────────────────
+function SaleBanner() {
+  return (
+    <div
+      className="sale-banner w-full py-3 px-4 overflow-hidden relative"
+      style={{
+        background:
+          "linear-gradient(90deg, #1a0000, #3d0000, #ff1a00 30%, #ff6600 50%, #ff1a00 70%, #3d0000, #1a0000)",
+        borderTop: "2px solid #ff4400",
+        borderBottom: "2px solid #ff4400",
+        boxShadow: "0 0 30px #ff440066, 0 4px 20px #ff220033",
+      }}
+      aria-label="Limited time sale announcement"
+    >
+      {/* Shimmer overlay */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "linear-gradient(90deg, transparent 0%, rgba(255,200,0,0.08) 50%, transparent 100%)",
+          animation: "shimmerSale 2s ease-in-out infinite",
+        }}
+        aria-hidden="true"
+      />
+      <div
+        className="flex items-center justify-center gap-3 flex-wrap"
+        style={{ animation: "salePulse 1.5s ease-in-out infinite" }}
+      >
+        <span
+          className="pixel-font text-[10px] md:text-xs text-white tracking-widest"
+          style={{ textShadow: "0 0 15px #ffaa00, 0 0 30px #ff4400" }}
+        >
+          ⚡🔥 LIMITED TIME SALE — UP TO 65% OFF! ENDS SOON 🔥⚡
+        </span>
+        <span
+          className="px-3 py-1 rounded pixel-font text-[9px] font-bold"
+          style={{
+            background: "linear-gradient(135deg, #ffd700, #ff4400)",
+            color: "#000",
+            boxShadow: "0 0 12px #ffd70088",
+            animation: "badgeBounce 1s ease-in-out infinite",
+          }}
+        >
+          🛒 BUY NOW
+        </span>
+      </div>
+    </div>
+  );
+}
+
+// ─── Section Banner component ─────────────────────────────────────────────────
+function SectionBanner({
+  title,
+  color,
+  subtitle,
+  icons,
+  decorChar = "◆",
+}: {
+  title: string;
+  color: string;
+  subtitle?: string;
+  icons?: string;
+  decorChar?: string;
+}) {
+  return (
+    <div className="text-center mb-12">
+      {/* Corner decorations row */}
+      <div
+        className="flex items-center justify-center gap-3 mb-3"
+        style={{ color: `${color}66` }}
+        aria-hidden="true"
+      >
+        <span className="pixel-font text-[8px] tracking-widest">░▒▓█</span>
+        <span className="text-lg">{icons ?? decorChar}</span>
+        <span className="pixel-font text-[8px] tracking-widest">█▓▒░</span>
+      </div>
+
+      {/* Top separator line */}
+      <div className="flex items-center gap-3 mb-4">
+        <div
+          className="flex-1 h-px"
+          style={{
+            background: `linear-gradient(90deg, transparent, ${color}88, ${color})`,
+          }}
+        />
+        <div
+          className="w-2 h-2 rotate-45"
+          style={{ background: color, boxShadow: `0 0 8px ${color}` }}
+          aria-hidden="true"
+        />
+        <div
+          className="flex-1 h-px"
+          style={{
+            background: `linear-gradient(90deg, ${color}, ${color}88, transparent)`,
+          }}
+        />
+      </div>
+
+      {/* Title */}
+      <h2
+        className="pixel-font text-lg md:text-2xl mb-3 section-title-glow"
+        style={{
+          color,
+          textShadow: `0 0 20px ${color}, 0 0 40px ${color}88, 0 0 60px ${color}44`,
+        }}
+      >
+        {title}
+      </h2>
+
+      {/* Subtitle */}
+      {subtitle && (
+        <p className="text-gray-400 text-sm max-w-xl mx-auto mb-4">
+          {subtitle}
+        </p>
+      )}
+
+      {/* Bottom separator line */}
+      <div className="flex items-center gap-3 mt-3">
+        <div
+          className="flex-1 h-px"
+          style={{
+            background: `linear-gradient(90deg, transparent, ${color}44)`,
+          }}
+        />
+        <div
+          className="pixel-font text-[7px]"
+          style={{ color: `${color}88` }}
+          aria-hidden="true"
+        >
+          {decorChar} {decorChar} {decorChar}
+        </div>
+        <div
+          className="flex-1 h-px"
+          style={{
+            background: `linear-gradient(90deg, ${color}44, transparent)`,
+          }}
+        />
+      </div>
+    </div>
+  );
+}
+
 // ─── Rank Card ───────────────────────────────────────────────────────────────
 function RankCard({ rank, index }: { rank: Rank; index: number }) {
   const cardStyle: React.CSSProperties = rank.rainbow
@@ -328,6 +485,9 @@ function RankCard({ rank, index }: { rank: Rank; index: number }) {
         boxShadow: `0 0 18px ${rank.glowColor}55, 0 0 40px ${rank.glowColor}22, inset 0 0 20px ${rank.glowColor}08`,
       };
 
+  const salePriceFmt = formatDualSalePrice(rank.price);
+  const origPriceFmt = formatDualPrice(rank.price);
+
   return (
     <article
       data-ocid={`rank.item.${index + 1}`}
@@ -336,13 +496,37 @@ function RankCard({ rank, index }: { rank: Rank; index: number }) {
       }`}
       style={cardStyle}
     >
+      {/* 30% OFF badge */}
       <div
-        className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold pixel-font"
-        style={rank.badgeStyle}
+        className="absolute top-3 left-3 px-2 py-0.5 rounded text-[9px] font-bold pixel-font"
+        style={{
+          background: "#ff5a3c",
+          color: "#fff",
+          boxShadow: "0 0 8px #ff5a3c99",
+        }}
+      >
+        30% OFF
+      </div>
+
+      {/* Price badge */}
+      <div
+        className="absolute top-3 right-3 flex flex-col items-end gap-0.5"
         data-ocid={`rank.${rank.name.toLowerCase()}.price`}
       >
-        ${rank.price}
+        <span
+          className="text-[9px] pixel-font line-through"
+          style={{ color: "#6b7280" }}
+        >
+          {origPriceFmt}
+        </span>
+        <span
+          className="px-2 py-0.5 rounded-full text-[9px] font-bold pixel-font"
+          style={rank.badgeStyle}
+        >
+          {salePriceFmt}
+        </span>
       </div>
+
       <div className="text-5xl text-center mt-2" aria-hidden="true">
         {rank.emoji}
       </div>
@@ -385,7 +569,7 @@ function RankCard({ rank, index }: { rank: Rank; index: number }) {
           border: `1px solid ${rank.glowColor}`,
           boxShadow: `0 0 10px ${rank.glowColor}44`,
         }}
-        aria-label={`Buy ${rank.name} rank for $${rank.price}`}
+        aria-label={`Buy ${rank.name} rank — ${salePriceFmt} (was ${origPriceFmt})`}
       >
         BUY NOW
       </a>
@@ -395,6 +579,9 @@ function RankCard({ rank, index }: { rank: Rank; index: number }) {
 
 // ─── Kit Card ────────────────────────────────────────────────────────────────
 function KitCard({ kit, index }: { kit: Kit; index: number }) {
+  const salePriceFmt = formatDualSalePrice(kit.price);
+  const origPriceFmt = formatDualPrice(kit.price);
+
   return (
     <article
       data-ocid={`kit.item.${index + 1}`}
@@ -418,31 +605,44 @@ function KitCard({ kit, index }: { kit: Kit; index: number }) {
         ⏱ {kit.cooldown}
       </div>
 
-      {/* Price badge */}
+      {/* 30% OFF badge */}
       <div
-        className="absolute top-3 right-3 px-3 py-1 rounded-full text-xs font-bold pixel-font"
-        style={{ background: kit.color, color: "#000" }}
+        className="absolute top-8 left-3 px-2 py-0.5 rounded text-[9px] font-bold pixel-font"
+        style={{
+          background: "#ff5a3c",
+          color: "#fff",
+          boxShadow: "0 0 8px #ff5a3c99",
+        }}
       >
-        ${kit.price}
+        30% OFF
       </div>
 
-      {/* Emoji */}
+      {/* Price badge */}
+      <div className="absolute top-3 right-3 flex flex-col items-end gap-0.5">
+        <span
+          className="text-[9px] pixel-font line-through"
+          style={{ color: "#6b7280" }}
+        >
+          {origPriceFmt}
+        </span>
+        <span
+          className="px-2 py-0.5 rounded-full text-[9px] font-bold pixel-font"
+          style={{ background: kit.color, color: "#000" }}
+        >
+          {salePriceFmt}
+        </span>
+      </div>
+
       <div className="text-5xl text-center mt-4" aria-hidden="true">
         {kit.emoji}
       </div>
-
-      {/* Name */}
       <h3
         className="pixel-font text-sm text-center"
         style={{ color: kit.color, textShadow: `0 0 15px ${kit.color}` }}
       >
         {kit.name}
       </h3>
-
-      {/* Desc */}
       <p className="text-gray-300 text-xs text-center">{kit.desc}</p>
-
-      {/* Items */}
       <ul className="flex flex-col gap-1 flex-1">
         {kit.items.map((item) => (
           <li
@@ -460,8 +660,6 @@ function KitCard({ kit, index }: { kit: Kit; index: number }) {
           </li>
         ))}
       </ul>
-
-      {/* Buy button */}
       <a
         href="#checkout"
         data-ocid={`kit.item.${index + 1}.button`}
@@ -472,7 +670,7 @@ function KitCard({ kit, index }: { kit: Kit; index: number }) {
           border: `1px solid ${kit.color}`,
           boxShadow: `0 0 10px ${kit.color}44`,
         }}
-        aria-label={`Buy ${kit.name} for $${kit.price}`}
+        aria-label={`Buy ${kit.name} — ${salePriceFmt} (was ${origPriceFmt})`}
       >
         BUY KIT
       </a>
@@ -482,28 +680,17 @@ function KitCard({ kit, index }: { kit: Kit; index: number }) {
 
 // ─── Checkout Section ─────────────────────────────────────────────────────────
 function CheckoutSection() {
-  const [copied, setCopied] = useState(false);
   const [couponInput, setCouponInput] = useState("");
   const [couponApplied, setCouponApplied] = useState(false);
   const [couponError, setCouponError] = useState(false);
   const VALID_COUPON = "ArcBoundTheBezt";
+
   const handleApplyCoupon = () => {
     if (couponInput === VALID_COUPON) {
       setCouponApplied(true);
       setCouponError(false);
     } else {
       setCouponError(true);
-    }
-  };
-  const upiNumber = "7093037207";
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(upiNumber);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
-    } catch {
-      // fallback: select text
     }
   };
 
@@ -520,32 +707,21 @@ function CheckoutSection() {
     >
       <div className="max-w-3xl mx-auto">
         {/* Heading */}
-        <div className="text-center mb-10">
-          <h2
-            className="pixel-font text-lg md:text-2xl mb-4"
-            style={{ color: "#a855f7", textShadow: "0 0 20px #a855f7" }}
-          >
-            CHECKOUT / PAYMENT
-          </h2>
-          <p className="text-gray-400 text-sm max-w-lg mx-auto">
-            Complete your purchase securely using PhonePe UPI. All payments are
-            processed securely.
-          </p>
-          <div
-            className="w-32 h-1 mx-auto mt-6 rounded-full"
-            style={{
-              background: "linear-gradient(90deg, #6d28d9, #a855f7, #6d28d9)",
-            }}
-          />
-        </div>
+        <SectionBanner
+          title="🔐 CHECKOUT / PAYMENT 🔐"
+          color="#a855f7"
+          subtitle="Complete your purchase securely using PhonePe. Scan the QR code below."
+          icons="🔒 💜 🔒"
+        />
 
         {/* PhonePe Card */}
         <div
           className="glass-card rounded-xl p-8 mb-8"
           style={{
-            border: "1px solid #6d28d9",
+            border: "2px solid #a855f7",
             boxShadow:
               "0 0 40px #6d28d955, 0 0 80px #6d28d922, inset 0 0 30px #6d28d908",
+            animation: "pulseGlowPurpleBox 3s ease-in-out infinite",
           }}
           data-ocid="checkout.panel"
         >
@@ -565,41 +741,45 @@ function CheckoutSection() {
             </span>
           </div>
 
-          {/* UPI Number */}
-          <div className="text-center mb-6">
-            <p className="text-gray-400 text-xs pixel-font mb-2">
-              UPI / MOBILE NUMBER
+          {/* QR Code image */}
+          <div className="flex flex-col items-center mb-8">
+            <p className="text-gray-400 text-xs pixel-font mb-4 tracking-widest">
+              ░▒▓ SCAN TO PAY ▓▒░
             </p>
             <div
-              className="inline-block px-6 py-3 rounded-lg text-3xl md:text-4xl font-bold tracking-widest"
+              className="relative p-2 rounded-xl"
               style={{
-                background: "rgba(109,40,217,0.20)",
-                border: "2px solid #a855f7",
-                color: "#e9d5ff",
-                textShadow: "0 0 20px #a855f7",
-                fontFamily: "monospace",
+                background: "#fff",
+                border: "3px solid #a855f7",
+                boxShadow: "0 0 30px #a855f788, 0 0 60px #6d28d955",
+                maxWidth: "280px",
               }}
             >
-              {upiNumber}
+              <img
+                src="/assets/uploads/WhatsApp-Image-2026-03-21-at-22.10.45-1.jpeg"
+                alt="PhonePe QR code for YERRAPOTHU SRILATHA"
+                style={{
+                  width: "100%",
+                  maxWidth: "260px",
+                  display: "block",
+                  borderRadius: "8px",
+                }}
+              />
             </div>
-          </div>
-
-          {/* Copy button */}
-          <div className="flex justify-center mb-8">
-            <button
-              type="button"
-              onClick={handleCopy}
-              data-ocid="checkout.copy.button"
-              className="px-6 py-3 rounded-lg pixel-font text-xs font-bold transition-all duration-300 hover:scale-105 flex items-center gap-2"
-              style={{
-                background: copied ? "#00ff8833" : "#6d28d933",
-                border: `1px solid ${copied ? "#00ff88" : "#a855f7"}`,
-                color: copied ? "#00ff88" : "#d8b4fe",
-                boxShadow: copied ? "0 0 15px #00ff8855" : "0 0 15px #6d28d955",
-              }}
-            >
-              {copied ? "✅ Copied!" : "📋 Copy UPI Number"}
-            </button>
+            <div className="mt-4 text-center">
+              <p
+                className="pixel-font text-sm"
+                style={{
+                  color: "#d8b4fe",
+                  textShadow: "0 0 15px #a855f7",
+                }}
+              >
+                YERRAPOTHU SRILATHA
+              </p>
+              <p className="text-gray-500 text-[10px] mt-1">
+                PhonePe UPI Payment
+              </p>
+            </div>
           </div>
 
           {/* Coupon Code */}
@@ -699,10 +879,10 @@ function CheckoutSection() {
             </h4>
             <ol className="flex flex-col gap-3">
               {[
-                "Open PhonePe app",
-                'Go to "Send Money" → "To Mobile Number"',
-                `Enter UPI number: ${upiNumber}`,
-                "Enter the exact amount for your rank/kit",
+                "Open PhonePe app on your phone",
+                'Tap "Scan QR Code" from the home screen',
+                "Scan the QR code shown above",
+                "Enter the exact amount for your rank/kit (see prices above)",
                 "Add your Minecraft username in the note/remarks",
                 "Send payment and take a screenshot",
                 "Share screenshot in our Discord for rank/kit activation",
@@ -758,7 +938,7 @@ function CheckoutSection() {
         {/* Security badges */}
         <div className="flex flex-wrap justify-center gap-4 mb-6">
           {[
-            { icon: "🔒", text: "Secure UPI Payment" },
+            { icon: "🔒", text: "Secure QR Payment" },
             { icon: "✅", text: "Manual Verification" },
             { icon: "⚡", text: "Fast Activation" },
             { icon: "💬", text: "Discord Support" },
@@ -839,7 +1019,6 @@ export default function App() {
             ArcBoundMcStore
           </span>
         </div>
-
         <nav
           className="flex items-center gap-1 md:gap-4"
           aria-label="Main navigation"
@@ -875,6 +1054,9 @@ export default function App() {
           </a>
         </nav>
       </header>
+
+      {/* ── LIMITED TIME SALE BANNER ── */}
+      <SaleBanner />
 
       {/* ── HERO ── */}
       <section
@@ -933,6 +1115,19 @@ export default function App() {
           >
             ARCBOUNDMC STORE
           </div>
+
+          {/* Dramatic fire subtitle */}
+          <div
+            className="pixel-font text-xs md:text-sm mb-4 tracking-widest"
+            style={{
+              color: "#ff6600",
+              textShadow: "0 0 15px #ff4400, 0 0 30px #ff220066",
+              animation: "salePulse 2s ease-in-out infinite",
+            }}
+          >
+            🔥 BEST MINECRAFT SERVER STORE 🔥
+          </div>
+
           <h1
             className="pixel-font text-base md:text-xl lg:text-2xl text-white mb-6 leading-loose"
             style={{ textShadow: "0 0 20px rgba(255,255,255,0.3)" }}
@@ -979,22 +1174,12 @@ export default function App() {
       {/* ── RANKS ── */}
       <section id="ranks" className="py-16 px-6" aria-label="Rank store">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2
-              className="pixel-font text-lg md:text-2xl mb-4"
-              style={{ color: "#00ff88", textShadow: "0 0 20px #00ff88" }}
-            >
-              CHOOSE YOUR RANK
-            </h2>
-            <p className="text-gray-400 text-sm max-w-xl mx-auto">
-              Select a rank that suits your playstyle. All ranks are permanent
-              unless otherwise noted. Pay via PhonePe UPI.
-            </p>
-            <div
-              className="w-32 h-1 mx-auto mt-6 rounded-full"
-              style={{ background: "linear-gradient(90deg, #00ff88, #a855f7)" }}
-            />
-          </div>
+          <SectionBanner
+            title="⚔️ CHOOSE YOUR RANK ⚔️"
+            color="#00ff88"
+            subtitle="Select a rank that suits your playstyle. All ranks are permanent unless otherwise noted. Pay via PhonePe QR."
+            icons="👑 ⚔️ 🗡️ ⭐ 👑"
+          />
 
           <div
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
@@ -1039,22 +1224,12 @@ export default function App() {
         aria-label="Kit store"
       >
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2
-              className="pixel-font text-lg md:text-2xl mb-4"
-              style={{ color: "#37d7ff", textShadow: "0 0 20px #37d7ff" }}
-            >
-              CHOOSE YOUR KIT
-            </h2>
-            <p className="text-gray-400 text-sm max-w-xl mx-auto">
-              Powerful 1.9-style kits with top-tier gear, potions, and weapons.
-              Each kit has a cooldown — choose wisely.
-            </p>
-            <div
-              className="w-32 h-1 mx-auto mt-6 rounded-full"
-              style={{ background: "linear-gradient(90deg, #37d7ff, #a855f7)" }}
-            />
-          </div>
+          <SectionBanner
+            title="🎒 CHOOSE YOUR KIT 🎒"
+            color="#37d7ff"
+            subtitle="Powerful 1.9-style kits with top-tier gear, potions, and weapons. Each kit has a cooldown — choose wisely."
+            icons="🗡️ 🏹 💎 🧙 👑"
+          />
 
           <div
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
@@ -1079,6 +1254,14 @@ export default function App() {
         aria-label="Bundles"
       >
         <div className="max-w-6xl mx-auto">
+          <SectionBanner
+            title="💎 BUNDLES & COMBOS 💎"
+            color="#ffd700"
+            subtitle="Stack ranks and kits together for the ultimate advantage and best value."
+            icons="💎 🏆 💎"
+            decorChar="★"
+          />
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {[
               {
@@ -1101,8 +1284,8 @@ export default function App() {
                 data-ocid={item.ocid}
                 className="glass-card rounded-lg p-6 text-center cursor-pointer transition-all duration-300 hover:scale-105"
                 style={{
-                  border: `1px solid ${item.color}33`,
-                  boxShadow: `0 0 20px ${item.color}11`,
+                  border: `2px solid ${item.color}55`,
+                  boxShadow: `0 0 30px ${item.color}22, 0 0 60px ${item.color}11`,
                 }}
               >
                 <div className="text-4xl mb-3" aria-hidden="true">
@@ -1110,7 +1293,10 @@ export default function App() {
                 </div>
                 <h3
                   className="pixel-font text-xs mb-2"
-                  style={{ color: item.color }}
+                  style={{
+                    color: item.color,
+                    textShadow: `0 0 12px ${item.color}`,
+                  }}
                 >
                   {item.title}
                 </h3>
@@ -1177,7 +1363,7 @@ export default function App() {
                   aria-labelledby="discord-icon-title"
                 >
                   <title id="discord-icon-title">Discord</title>
-                  <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.004.024.018.047.038.065a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z" />
+                  <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.004.024.018.047.038.065a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.030z" />
                 </svg>
                 DISCORD
               </a>
@@ -1224,8 +1410,8 @@ export default function App() {
 
           <div className="flex flex-col md:flex-row items-center justify-between gap-3 text-center">
             <p className="text-gray-500 text-xs">
-              🔒 Secure Payments via PhonePe UPI &nbsp;|&nbsp; Prices in USD
-              &nbsp;|&nbsp; Join Discord:{" "}
+              🔒 Secure Payments via PhonePe QR &nbsp;|&nbsp; Prices in USD
+              &amp; INR &nbsp;|&nbsp; Join Discord:{" "}
               <a
                 href="https://discord.gg/PfgZ3Gpz"
                 style={{ color: "#a855f7" }}
@@ -1253,23 +1439,6 @@ export default function App() {
                 Privacy Policy
               </a>
             </div>
-          </div>
-
-          <div className="text-center mt-6">
-            <p className="text-gray-700 text-xs">
-              © {new Date().getFullYear()} ArcBoundMc. Built with ❤️ using{" "}
-              <a
-                href={`https://caffeine.ai?utm_source=caffeine-footer&utm_medium=referral&utm_content=${encodeURIComponent(
-                  typeof window !== "undefined" ? window.location.hostname : "",
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: "#00ff8866" }}
-                className="hover:opacity-80 transition-opacity"
-              >
-                caffeine.ai
-              </a>
-            </p>
           </div>
         </div>
       </footer>

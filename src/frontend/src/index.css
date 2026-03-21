@@ -88,6 +88,17 @@
   }
 }
 
+@keyframes pulseGlowPurpleBox {
+  0%,
+  100% {
+    box-shadow: 0 0 40px #6d28d955, 0 0 80px #6d28d922, inset 0 0 30px #6d28d908;
+  }
+  50% {
+    box-shadow: 0 0 60px #a855f777, 0 0 100px #6d28d944, inset 0 0 40px
+      #a855f711;
+  }
+}
+
 @keyframes rainbowBorder {
   0% {
     border-color: #ff0080;
@@ -141,6 +152,47 @@
   }
 }
 
+@keyframes sectionTitleGlow {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.3) drop-shadow(0 0 12px currentColor);
+  }
+}
+
+@keyframes salePulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes shimmerSale {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes badgeBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
 .pixel-font {
   font-family: "Press Start 2P", monospace;
 }
@@ -162,6 +214,10 @@
   animation: rainbowBorder 3s linear infinite;
   border-width: 2px;
   border-style: solid;
+}
+
+.section-title-glow {
+  animation: sectionTitleGlow 3s ease-in-out infinite;
 }
 
 .scanline-overlay {
@@ -194,4 +250,9 @@
   background: rgba(10, 10, 20, 0.7);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+}
+
+.sale-banner {
+  position: relative;
+  z-index: 40;
 }
