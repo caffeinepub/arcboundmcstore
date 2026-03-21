@@ -177,19 +177,20 @@ interface Kit {
 const KITS: Kit[] = [
   {
     name: "Starter Kit",
-    price: 1.79,
+    price: 0,
     cooldown: "24h",
     emoji: "🎒",
     color: "#37d7ff",
     items: [
-      "Iron Sword",
-      "Iron Chestplate",
-      "10x Cooked Beef",
+      "Iron Sword (Sharpness I)",
+      "Iron Helmet + Chestplate + Leggings + Boots",
+      "Bow",
+      "32x Arrows",
+      "16x Cooked Beef",
       "5x Golden Apple",
       "Iron Pickaxe",
-      "32x Arrows",
     ],
-    desc: "Perfect for new players to get a solid start.",
+    desc: "Free starter gear to get new players off the ground.",
   },
   {
     name: "Fighter Kit",
@@ -198,14 +199,17 @@ const KITS: Kit[] = [
     emoji: "⚔️",
     color: "#ff5a3c",
     items: [
-      "Diamond Sword (Sharp II)",
-      "Diamond Chestplate (Prot II)",
-      "Diamond Leggings",
-      "16x Golden Apple",
-      "Bow (Power II)",
+      "Diamond Sword (Sharp III, Fire Aspect I)",
+      "Diamond Chestplate (Prot III)",
+      "Diamond Leggings (Prot II)",
+      "Diamond Helmet + Boots (Prot II)",
+      "Bow (Power II, Punch I)",
       "64x Arrows",
+      "16x Golden Apple",
+      "Speed II Potion x2",
+      "Ender Pearl x2",
     ],
-    desc: "Dominate PvP fights with sharp gear.",
+    desc: "Full diamond PvP kit with fire aspect and speed potions.",
   },
   {
     name: "Archer Kit",
@@ -214,14 +218,16 @@ const KITS: Kit[] = [
     emoji: "🏹",
     color: "#a855f7",
     items: [
-      "Bow (Power III, Infinity)",
-      "Diamond Sword",
-      "Iron Armor",
-      "32x Golden Apple",
-      "1x Arrow",
-      "Speed Potion II",
+      "Bow (Power IV, Flame, Punch II, Infinity)",
+      "Diamond Sword (Sharp II)",
+      "Diamond Chestplate (Prot III)",
+      "Iron Helmet + Leggings + Boots (Prot II)",
+      "1x Arrow (Infinity)",
+      "20x Golden Apple",
+      "Speed II Potion x4",
+      "Ender Pearl x3",
     ],
-    desc: "Long-range domination with infinite arrows.",
+    desc: "Infinite arrows, flame shots, and speed — long-range destroyer.",
   },
   {
     name: "Diamond Kit",
@@ -230,14 +236,18 @@ const KITS: Kit[] = [
     emoji: "💎",
     color: "#00bfff",
     items: [
-      "Diamond Sword (Sharp III)",
-      "Full Diamond Armor (Prot III)",
-      "32x Golden Apple",
-      "Bow (Power III)",
+      "Diamond Sword (Sharp IV, Fire Aspect I, Looting II)",
+      "Diamond Helmet (Prot III, Respiration I)",
+      "Diamond Chestplate (Prot IV)",
+      "Diamond Leggings (Prot III)",
+      "Diamond Boots (Prot III, Feather Falling III)",
+      "Bow (Power III, Flame, Punch I)",
       "64x Arrows",
-      "Diamond Pickaxe (Eff III)",
+      "32x Golden Apple",
+      "Diamond Pickaxe (Eff IV, Unb II)",
+      "Strength I Potion x2",
     ],
-    desc: "Full diamond loadout, ready to rule.",
+    desc: "Max diamond loadout — fully enchanted and ready to dominate.",
   },
   {
     name: "Mage Kit",
@@ -246,14 +256,20 @@ const KITS: Kit[] = [
     emoji: "🧙",
     color: "#f6c64a",
     items: [
-      "Enchanted Book (Sharp IV)",
-      "Splash Potions x8",
-      "Diamond Sword",
-      "Prot III Armor",
-      "Golden Apple x20",
-      "Ender Pearl x4",
+      "Diamond Sword (Sharp III, Fire Aspect I)",
+      "Diamond Chestplate + Leggings (Prot III)",
+      "Diamond Helmet + Boots (Prot II)",
+      "Bow (Power III)",
+      "32x Arrows",
+      "Splash Potion of Harming II x4",
+      "Splash Potion of Poison II x4",
+      "Splash Potion of Weakness x4",
+      "Strength II Potion x2",
+      "Speed II Potion x4",
+      "20x Golden Apple",
+      "Ender Pearl x8",
     ],
-    desc: "Potion-powered warrior with enchantment edge.",
+    desc: "Potion-stacking mage with a full splash arsenal.",
   },
   {
     name: "God Kit",
@@ -262,15 +278,24 @@ const KITS: Kit[] = [
     emoji: "👑",
     color: "#ffd700",
     items: [
-      "Diamond Sword (Sharp IV, Fire I)",
-      "Full Diamond Armor (Prot IV)",
+      "⚡ Netherite Sword (Sharp V, Fire Aspect II, Looting III, Unb III)",
+      "⚡ Netherite Helmet (Prot IV, Respiration III, Aqua Affinity, Unb III)",
+      "⚡ Netherite Chestplate (Prot IV, Unb III, Mending)",
+      "⚡ Netherite Leggings (Prot IV, Unb III)",
+      "⚡ Netherite Boots (Prot IV, Feather Falling IV, Depth Strider III, Unb III)",
+      "Bow (Power V, Flame, Punch II, Infinity, Unb III)",
+      "1x Arrow",
+      "⚡ Netherite Pickaxe (Eff V, Fortune III, Unb III, Mending)",
+      "Shield (Unb III)",
       "64x Golden Apple",
-      "Bow (Power IV, Flame)",
-      "64x Arrows",
-      "Totem of Undying x2",
-      "Diamond Pickaxe (Eff IV, Unb III)",
+      "Totem of Undying x3",
+      "Ender Pearl x16",
+      "Strength II Potion x4",
+      "Speed II Potion x4",
+      "Fire Resistance Potion x4",
+      "Splash Potion of Harming II x8",
     ],
-    desc: "The ultimate PvP loadout — unstoppable force.",
+    desc: "Full Netherite, max enchants, 64 golden apples — the absolute top kit.",
     featured: true,
   },
 ];
@@ -579,8 +604,9 @@ function RankCard({ rank, index }: { rank: Rank; index: number }) {
 
 // ─── Kit Card ────────────────────────────────────────────────────────────────
 function KitCard({ kit, index }: { kit: Kit; index: number }) {
-  const salePriceFmt = formatDualSalePrice(kit.price);
-  const origPriceFmt = formatDualPrice(kit.price);
+  const isFree = kit.price === 0;
+  const salePriceFmt = isFree ? "FREE" : formatDualSalePrice(kit.price);
+  const origPriceFmt = isFree ? "" : formatDualPrice(kit.price);
 
   return (
     <article
@@ -605,29 +631,48 @@ function KitCard({ kit, index }: { kit: Kit; index: number }) {
         ⏱ {kit.cooldown}
       </div>
 
-      {/* 30% OFF badge */}
-      <div
-        className="absolute top-8 left-3 px-2 py-0.5 rounded text-[9px] font-bold pixel-font"
-        style={{
-          background: "#ff5a3c",
-          color: "#fff",
-          boxShadow: "0 0 8px #ff5a3c99",
-        }}
-      >
-        30% OFF
-      </div>
+      {/* 30% OFF badge (paid kits only) or FREE badge */}
+      {isFree ? (
+        <div
+          className="absolute top-8 left-3 px-2 py-0.5 rounded text-[9px] font-bold pixel-font"
+          style={{
+            background: "#00ff88",
+            color: "#000",
+            boxShadow: "0 0 10px #00ff8899, 0 0 20px #00ff8844",
+          }}
+        >
+          ✦ FREE
+        </div>
+      ) : (
+        <div
+          className="absolute top-8 left-3 px-2 py-0.5 rounded text-[9px] font-bold pixel-font"
+          style={{
+            background: "#ff5a3c",
+            color: "#fff",
+            boxShadow: "0 0 8px #ff5a3c99",
+          }}
+        >
+          30% OFF
+        </div>
+      )}
 
       {/* Price badge */}
       <div className="absolute top-3 right-3 flex flex-col items-end gap-0.5">
-        <span
-          className="text-[9px] pixel-font line-through"
-          style={{ color: "#6b7280" }}
-        >
-          {origPriceFmt}
-        </span>
+        {!isFree && (
+          <span
+            className="text-[9px] pixel-font line-through"
+            style={{ color: "#6b7280" }}
+          >
+            {origPriceFmt}
+          </span>
+        )}
         <span
           className="px-2 py-0.5 rounded-full text-[9px] font-bold pixel-font"
-          style={{ background: kit.color, color: "#000" }}
+          style={{
+            background: isFree ? "#00ff88" : kit.color,
+            color: isFree ? "#000" : "#000",
+            boxShadow: isFree ? "0 0 12px #00ff8866" : undefined,
+          }}
         >
           {salePriceFmt}
         </span>
@@ -665,14 +710,18 @@ function KitCard({ kit, index }: { kit: Kit; index: number }) {
         data-ocid={`kit.item.${index + 1}.button`}
         className="w-full mt-2 py-3 rounded-md pixel-font text-xs font-bold transition-all duration-300 group-hover:scale-105 text-center block"
         style={{
-          background: `${kit.color}22`,
-          color: kit.color,
-          border: `1px solid ${kit.color}`,
-          boxShadow: `0 0 10px ${kit.color}44`,
+          background: isFree ? "#00ff8822" : `${kit.color}22`,
+          color: isFree ? "#00ff88" : kit.color,
+          border: `1px solid ${isFree ? "#00ff88" : kit.color}`,
+          boxShadow: `0 0 10px ${isFree ? "#00ff8844" : `${kit.color}44`}`,
         }}
-        aria-label={`Buy ${kit.name} — ${salePriceFmt} (was ${origPriceFmt})`}
+        aria-label={
+          isFree
+            ? `Claim ${kit.name} for free`
+            : `Buy ${kit.name} — ${salePriceFmt} (was ${origPriceFmt})`
+        }
       >
-        BUY KIT
+        {isFree ? "CLAIM FREE" : "BUY KIT"}
       </a>
     </article>
   );
@@ -1227,7 +1276,7 @@ export default function App() {
           <SectionBanner
             title="🎒 CHOOSE YOUR KIT 🎒"
             color="#37d7ff"
-            subtitle="Powerful 1.9-style kits with top-tier gear, potions, and weapons. Each kit has a cooldown — choose wisely."
+            subtitle="Max-tier 1.9-style kits from Netherite to Starter. Each kit has a cooldown — dominate your enemies."
             icons="🗡️ 🏹 💎 🧙 👑"
           />
 
